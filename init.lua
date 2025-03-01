@@ -13,6 +13,7 @@ local dlimit = 3  -- HUD element will be hidden after this many seconds
 
 local hudbars_mod = minetest.get_modpath("hudbars")
 local unified_inventory_mod = minetest.get_modpath("unified_inventory")
+local stamina_mod = minetest.get_modpath("stamina")
 
 -- Legacy support: Name of the HUD type field for 'hud_add'.
 local hud_type_field_name
@@ -49,6 +50,9 @@ local function set_hud(player)
 			local rows = math.floor((#hb.get_hudbar_identifiers()-1) / 2) + 1
 			local vmargin = tonumber(minetest.settings:get("hudbars_vmargin")) or 24
 			off.y = -76 - vmargin*rows
+		elseif stamina_mod then
+			-- Tweak offset if stamina mod was found
+			off.y = off.y - 22
 		end
 
 		-- Dirty trick to avoid collision with Luanti's status text (e.g. “Volume changed to 0%”)
@@ -65,6 +69,7 @@ local function set_hud(player)
 		number = 0xFFFFFF ,
 		text = "",
 		z_index = 100,
+		style = 1,
 	})
 end
 
